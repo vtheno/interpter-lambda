@@ -143,6 +143,7 @@ replace expr [] = expr
 replace var@(Var v) env 
   | v `myElem` env = env `myGet` v
   | otherwise      = var
+replace app@(App f a) env = beta (App (replace f env) (replace a env)) -- undefine
 replace lam@(Lam v b@(Var c)) env
   | v `myElem` env = body
   | otherwise      = Lam v body
