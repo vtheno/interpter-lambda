@@ -178,7 +178,6 @@ main = do
   -- getLine >>= print . evalExpr . readExpr 
   -- getLine >>= print . readExpr
   -- getLine >>= print . freeVars . readExpr 
-  putStr ">> "
   text <- getLine
   -- getLine >>= print . beta . readExpr
   case text of 
