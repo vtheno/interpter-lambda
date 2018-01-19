@@ -45,7 +45,9 @@ parseVar = do
   return $Var var
 parseAbst :: Parser Term
 parseAbst = do
+  many $char ' '
   char '\\'
+  many $char ' '
   argu <- parseV
   many $char ' '
   char '.'
@@ -54,11 +56,15 @@ parseAbst = do
   return $Lam argu body
 parseApp :: Parser Term
 parseApp = do
+  many $char ' '
   char '('
+  many $char ' '
   function <- parseExpr
   many $char ' '
   argument <- parseExpr
+  many $char ' '
   char ')'
+  many $char ' '
   return $App function argument
 
 parseExpr :: Parser Term
@@ -143,7 +149,7 @@ replace lam@(Lam v b@(Var c)) env
   where
     body = (replace b env)
 replace lam@(Lam v b@(App f a)) env
-  | v `myElem` env = body
+  | v `myElem` env = beta body -- body
   | otherwise      = Lam v body
   where
     body = App (replace f env) (replace a env)
@@ -158,6 +164,8 @@ replace lam@(Lam v b@(Lam _ _)) env
 
 beta :: Term -> Term
 beta app@(App lam@(Lam v b) a) = replace lam [(v,a)]
+beta app@(App a@(App _ _) e)   = beta (App (beta a) e) -- undefine 
+beta app@(App v@(Var _) e)     = App v e -- undefine 
 beta lam@(Lam v e) = replace lam []
 beta var@(Var v)   = replace var []
 
