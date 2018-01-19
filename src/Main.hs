@@ -171,10 +171,18 @@ myTest2 = readExpr "(\\a.\\b.b \\x.x)"
 
 main :: IO ()
 main = do
-  putStrLn "hello world"
-  putStrLn $ show (App (Var (V "func")) (Var (V "args")))
-  putStrLn $ show (Lam (V "x") (Var (V "x")))
+  -- putStrLn "hello world"
+  -- putStrLn $ show (App (Var (V "func")) (Var (V "args")))
+  -- putStrLn $ show (Lam (V "x") (Var (V "x")))
   -- putStrLn $ show (alpha_subV (V "x") (V "z") (Lam (V "x") (App (Var $V "y") (Var $V "x"))) )
   -- getLine >>= print . evalExpr . readExpr 
   -- getLine >>= print . readExpr
-  getLine >>= print . freeVars . readExpr 
+  -- getLine >>= print . freeVars . readExpr 
+  putStr ">> "
+  text <- getLine
+  -- getLine >>= print . beta . readExpr
+  case text of 
+    ":q" -> putStrLn "done."
+    text -> do
+      putStrLn $ "=> " ++ (show (beta $ readExpr text))
+      main
