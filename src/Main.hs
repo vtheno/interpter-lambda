@@ -8,7 +8,6 @@ data Var  = V String deriving Eq
 data Term = Var Var
           | Lam Var Term
           | App Term Term
-          | Sub Term Var Term
           deriving Eq
 {-
 deriving 源自于 
