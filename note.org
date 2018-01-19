@@ -1,0 +1,41 @@
+#+BEGIN_SRC haskell
+{- 
+learnyouahaskell
+write your a parsec in haskell
+-}
+{-
+原子变量 就是自由变量
+\ x . x  => body中的变量不在参数中则是自由变量
+apply (redex beta 规约到无法再进行替换的时候 就是自然形式(Noxx from)
+App 的自由变量是判断 function 和 argument 两个部分的自由变量
+-}
+
+{- alpha conversion
+它是对λ项进行如下操作，
+把某个形参以及所有它绑定的变元全都替换成一个“新”的变元。
+比如 (λx.y x) x 就可以通过α变换得到 (λz.y z) x，
+这个变换的过程简写为 (λx.y x) => (λz. y z) x，
+其中 => 代表做一次α变换。
+ α变换不改变λ项代表的意思，这也叫做α等价（α-equivalence），
+这是我们接触到的第一条关于λ项的等价关系。
+α变换涉及到一个相关的操作，就是如何对一个λ项里面某个自由变元做替换操作。
+在这个操作过程中，我们只要注意不要把被绑定的变元替换掉就好了
+subT : Substitute a free variable by a term 
+-}
+
+{-
+Beta-reduction beta 规约就是 替换(substitute boundVar)
+(λx.e) e' => e [ x := e' ] ;; [] 中的是当前环境
+\x.(z x) [ x:= \y.y ] 
+=> (\x.(z x) \y.y) 
+=> (z \y.y) 
+如果我们套用最常见的等价的定义，
+就会发现β规约并不满足自反／对称／传递这三个条件，
+比如 A => B 并不能推导出 B => A。
+所以通常的做法是直接把β规约当作是一条公理，也即β等价
+（β-equivalence）:
+(\x.e e') <=> e [x:=e'] 
+
+-}
+#+END_SRC
+
